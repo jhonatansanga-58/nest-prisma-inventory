@@ -29,6 +29,14 @@ export default tseslint.config(
         rules: {
             curly: ['error', 'all'],
             camelcase: ['error', { properties: 'always' }],
+            'no-unused-vars': 'off',
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    argsIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                },
+            ],
             'prefer-const': 'error',
             'max-len': ['warn', { code: 100 }],
             'object-curly-spacing': ['error', 'always'],
