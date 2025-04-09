@@ -29,6 +29,14 @@ export default tseslint.config(
         rules: {
             curly: ['error', 'all'],
             camelcase: ['error', { properties: 'always' }],
+            'no-unused-vars': 'off',
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    argsIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                },
+            ],
             'prefer-const': 'error',
             'max-len': ['warn', { code: 100 }],
             'object-curly-spacing': ['error', 'always'],
@@ -37,6 +45,7 @@ export default tseslint.config(
             quotes: ['error', 'single'],
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/no-floating-promises': 'warn',
+            '@typescript-eslint/no-unsafe-argument': 'warn',
             'prettier/prettier': ['error', { endOfLine: 'auto' }],
         },
     },
