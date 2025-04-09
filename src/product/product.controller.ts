@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Product } from '@prisma/client';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('products')
 export class ProductController {
@@ -17,12 +18,12 @@ export class ProductController {
     }
 
     @Post()
-    async createProduct(@Body() product: Product) {
+    async createProduct(@Body() product: CreateProductDto) {
         return this.productService.createProduct(product);
     }
 
     @Put(':id')
-    async updateProduct(@Param('id') id: string, @Body() product: Product) {
+    async updateProduct(@Param('id') id: string, @Body() product: UpdateProductDto) {
         return this.productService.updateProduct(parseInt(id), product);
     }
 
