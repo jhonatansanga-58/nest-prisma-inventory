@@ -9,8 +9,19 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductService {
     constructor(private prisma: PrismaService) {}
 
-    async getAllProducts(): Promise<Product[]> {
-        return this.prisma.product.findMany();
+    async getProducts(page: number, limit: number): Promise<Product[]> {
+        const skip = (page - 1) * limit;
+        return this.prisma.product.findMany({ skip, take: limit });
+    }
+
+    async searchProducts(name: string): Promise<Product[]> {
+        return this.prisma.product.findMany({
+            where: {
+                name: {
+                    contains: name,
+                },
+            },
+        });
     }
 
     async getProductById(id: number): Promise<Product> {
