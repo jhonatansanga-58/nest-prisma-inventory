@@ -48,4 +48,32 @@ export class ProductService {
             throw new NotFoundException(`Product with ID ${id} not found`);
         }
     }
+
+    async getProductStock(id: number) {
+        try {
+            const product = await this.prisma.product.findUnique({
+                where: { id },
+                select: { id: true, name: true, stock: true },
+            });
+            if (!product) {
+                throw new NotFoundException(`Product with ID ${id} not found`);
+            }
+            return product;
+        } catch {
+            throw new BadRequestException('Failed to get product stock');
+        }
+    }
+
+    async getAllStocks() {
+        return await this.prisma.product.findMany({
+            select: { id: true, name: true, stock: true },
+        });
+    }
+
+    async getStocksByIds(ids: number[]) {
+        return await this.prisma.product.findMany({
+            where: { id: { in: ids } },
+            select: { id: true, name: true, stock: true },
+        });
+    }
 }
