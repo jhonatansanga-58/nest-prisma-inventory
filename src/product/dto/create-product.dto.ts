@@ -1,4 +1,12 @@
-import { IsString, IsNumber, MinLength, MaxLength, IsNotEmpty, Min } from 'class-validator';
+import {
+    IsString,
+    IsNumber,
+    MinLength,
+    MaxLength,
+    IsNotEmpty,
+    Min,
+    IsOptional,
+} from 'class-validator';
 
 export class CreateProductDto {
     @IsString()
@@ -22,4 +30,8 @@ export class CreateProductDto {
     @IsNotEmpty()
     @Min(0)
     stock: number;
+
+    @IsOptional()
+    @IsNumber()
+    categoryId?: number;
 }
