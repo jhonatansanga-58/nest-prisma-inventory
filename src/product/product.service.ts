@@ -1,4 +1,3 @@
-// src/product/product.service.ts
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Product } from '@prisma/client';
@@ -38,7 +37,15 @@ export class ProductService {
 
     async createProduct(data: CreateProductDto): Promise<Product> {
         try {
-            return await this.prisma.product.create({ data });
+            return await this.prisma.product.create({
+                data: {
+                    name: data.name,
+                    description: data.description,
+                    price: data.price,
+                    stock: data.stock,
+                    categoryId: data.categoryId,
+                },
+            });
         } catch {
             throw new BadRequestException('Failed to create product');
         }
@@ -46,7 +53,16 @@ export class ProductService {
 
     async updateProduct(id: number, data: UpdateProductDto): Promise<Product> {
         try {
-            return await this.prisma.product.update({ where: { id }, data });
+            return await this.prisma.product.update({
+                where: { id },
+                data: {
+                    name: data.name,
+                    description: data.description,
+                    price: data.price,
+                    stock: data.stock,
+                    categoryId: data.categoryId,
+                },
+            });
         } catch {
             throw new NotFoundException(`Product with ID ${id} not found`);
         }
@@ -85,6 +101,12 @@ export class ProductService {
         return await this.prisma.product.findMany({
             where: { id: { in: ids } },
             select: { id: true, name: true, stock: true },
+        });
+    }
+
+    async getProductsByCategory(categoryId: number): Promise<Product[]> {
+        return this.prisma.product.findMany({
+            where: { categoryId },
         });
     }
 }
